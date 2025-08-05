@@ -67,13 +67,12 @@ def add_rohr():
 
 
 def restart_game():
-    global points, game_over, v_speed, re, rohre, play, mytext, player, scoe, jump
+    global points, v_speed, re, rohre, play, mytext, player, scoe, jump
 
     scoe.text = ''
     jump = 0
     points = 0
     mytext.text = 'Score: 0'
-    game_over = False
     v_speed = 0
 
     destroy(re)
@@ -94,6 +93,10 @@ def add():
         points += 1
         mytext.text = f'Score: {points}'
         invoke(add, delay=random.randint(3, 5))
+
+
+def adding():
+    print('return restart')
 
 
 def update():
@@ -134,19 +137,19 @@ def update():
         no = max(j)
         scoe.text = f'Hightscore: {nu}\nScore: {points}\nMax Jumps: {no}\nJumps: {jump}\nMax Actions: {no + nu}\nActions: {jump + points}'
         a.text = 'Game Over'
+        invoke(adding, delay=3)
         if re and re.hovered and held_keys['left mouse']:
             a.text = ''
             restart_game()
+            invoke(adding, delay=2)
             game_over = False
+            invoke(add, delay=3)
 
 
 def input(key):
     global jump, game_over, re
     if not game_over and key == 'space':
         jump += 1
-    if game_over and re and re.hovered and key == 'left mouse':
-        game_over = False
-        add()
 
 
 camera.orthographic = True
