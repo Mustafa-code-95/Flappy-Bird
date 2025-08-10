@@ -96,7 +96,7 @@ def add():
 
 
 def adding():
-    print('return restart')
+    print('', end='')
 
 
 def update():
@@ -135,15 +135,27 @@ def update():
         liste = liste + [points]
         nu = max(liste)
         no = max(j)
-        scoe.text = f'Hightscore: {nu}\nScore: {points}\nMax Jumps: {no}\nJumps: {jump}\nMax Actions: {no + nu}\nActions: {jump + points}'
-        a.text = 'Game Over'
+        j = [no]
+        liste = [nu]
+        if not a.text == 'Game Starting...':
+            a.text = 'Game Over'
+            scoe.text = f'Hightscore: {nu}\nScore: {points}\nMax Jumps: {no}\nJumps: {jump}\nMax Actions: {no + nu}\nActions: {jump + points}'
         invoke(adding, delay=3)
         if re and re.hovered and held_keys['left mouse']:
             a.text = ''
             restart_game()
             invoke(adding, delay=2)
-            game_over = False
-            invoke(add, delay=3)
+
+            def go():
+                global game_over
+                game_over = False
+                invoke(add, delay=3)
+                scoe.text = ''
+                a.text = ''
+
+            scoe.text = 'Loading...'
+            a.text = 'Game Starting...'
+            invoke(go, delay=5)
 
 
 def input(key):
